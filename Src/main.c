@@ -103,14 +103,23 @@ int main(void)
   FATFS fs;
 //  FIL fsrc,fdst;
 //  BYTE buffer[BUF_LEN];
-//  FRESULT fr;
+  FRESULT fr;
 //  UINT br, bw;
 
+  //CS  -> EN:
+  HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+
   //mount:
-  f_mount(&fs, "0:/", 1);
+  fr = f_mount(&fs, "0:/", 1);
+
+  if (fr != FR_OK)
+	  printf ("ошибка монтирования");
 
   //unmount:
-  f_mount(NULL, "0:/", 1);
+  fr = f_mount(NULL, "0:/", 1);
+
+  //CS -> 0:
+  HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
 
   /* USER CODE END Init */
 
