@@ -101,7 +101,7 @@ int main(void)
 
 
   FATFS fs;
-//  FIL fsrc,fdst;
+  FIL file; //fsrc,fdst;
 //  BYTE buffer[BUF_LEN];
   FRESULT fr;
 //  UINT br, bw;
@@ -112,8 +112,9 @@ int main(void)
   //mount:
   fr = f_mount(&fs, "0:/", 1);
 
-  if (fr != FR_OK)
-	  printf ("ошибка монтирования");
+  if (fr == FR_OK)
+	  fr = f_open(&file, "sd_write.txt", FA_CREATE_ALWAYS | FA_WRITE);
+
 
   //unmount:
   fr = f_mount(NULL, "0:/", 1);
